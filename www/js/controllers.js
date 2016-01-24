@@ -36,4 +36,33 @@
       });
     })
 
+    .controller('GameController', function($scope, $localCardsContainer, $ionicAnimation) {
+      $scope.cards = $localCardsContainer.getAll();
+      $scope.currentCard = {};
+      $scope.displayCardContent = '';
+      $scope.answered = true;
+
+      $scope.next = function() {
+        if ($scope.answered) {
+          $scope.getNextCard();
+          $scope.displayCardContent = $scope.currentCard.front;
+        } else {
+          $scope.displayCardContent = $scope.currentCard.back;
+        }
+        $scope.answered = !$scope.answered;
+      };
+
+      $scope.getNextCard = function() {
+        if ($scope.cards.length === 0) {
+          throw Error('Out of cards');
+        }
+
+        var i = Math.floor(Math.random() * $scope.cards.length);
+        $scope.currentCard = $scope.cards[i];
+        $scope.cards.splice(i, 1);
+      };
+
+      $scope.next();
+    })
+
 })();
