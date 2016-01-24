@@ -3,10 +3,6 @@
 
   angular.module('flashCards.controllers', ['ionic', 'flashCards.services'])
     .controller('CardsController', function($scope, $ionicSideMenuDelegate, $ionicModal, $localCardsContainer) {
-      if ($ionicSideMenuDelegate.isOpenLeft()) {
-        $ionicSideMenuDelegate.toggleLeft();
-      }
-
       $scope.cards = $localCardsContainer.getAll();
 
       $scope.saveCard = function(card) {
