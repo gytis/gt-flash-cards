@@ -1,0 +1,7 @@
+# Node files
+node_modules/
+platforms/
+plugins/
+
+# IDE files
+.idea
