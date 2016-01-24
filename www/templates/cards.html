@@ -1,0 +1,21 @@
+<ion-view>
+  <ion-content scroll="false" ng-controller="CardsController">
+    <ion-header-bar class="bar-dark">
+      <button class="button button-icon" ng-click="toggleLeftMenu()">
+        <i class="icon ion-navicon"></i>
+      </button>
+      <h1 class="title">Your flash cards</h1>
+      <button class="button button-icon" ng-click="openNewCard()">
+        <i class="icon ion-compose"></i>
+      </button>
+    </ion-header-bar>
+
+    <ion-content>
+      <ion-list>
+        <ion-item ng-repeat="card in cards">
+          {{card.front }} - {{card.back}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-content>
+</ion-view>

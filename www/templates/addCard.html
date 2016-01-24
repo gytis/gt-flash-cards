@@ -1,0 +1,24 @@
+<div class="modal">
+  <ion-header-bar class="bar-secondary">
+    <h1 class="title">New Card</h1>
+    <button class="button button-clear button-positive" ng-click="closeNewCard()">Cancel</button>
+  </ion-header-bar>
+
+  <ion-content>
+    <form ng-submit="saveCard(card)">
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Front of the card" ng-model="card.front">
+        </label>
+      </div>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Back of the card" ng-model="card.back">
+        </label>
+      </div>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Create Card</button>
+      </div>
+    </form>
+  </ion-content>
+</div>
