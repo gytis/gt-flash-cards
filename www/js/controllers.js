@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('flashCards.controllers', ['ionic', 'flashCards.services'])
+  angular.module('flashCards.controllers', ['ionic', 'ngUnderscore', 'flashCards.services', 'ionic.contrib.ui.tinderCards'])
     .controller('CardsController', function($scope, $ionicSideMenuDelegate, $ionicModal, $localCardsContainer) {
       $scope.cards = $localCardsContainer.getAll();
 
@@ -36,33 +36,45 @@
       });
     })
 
-    .controller('GameController', function($scope, $localCardsContainer, $ionicAnimation) {
-      $scope.cards = $localCardsContainer.getAll();
-      $scope.currentCard = {};
-      $scope.displayCardContent = '';
-      $scope.answered = true;
+    .controller('GameController', function($scope, $localCardsContainer, underscore, $ionicSideMenuDelegate) {
+      $scope.unusedCards = underscore.shuffle($localCardsContainer.getAll());
+      $scope.cards = [];
+      $scope.showAnswer = false;
 
-      $scope.next = function() {
-        if ($scope.answered) {
-          $scope.getNextCard();
-          $scope.displayCardContent = $scope.currentCard.front;
-        } else {
-          $scope.displayCardContent = $scope.currentCard.back;
-        }
-        $scope.answered = !$scope.answered;
+      addCard();
+
+      $scope.cardDestroyed = function(index) {
+        console.log("Card destroyed");
+        addCard();
+        $scope.cards.splice(index, 1);
       };
 
-      $scope.getNextCard = function() {
-        if ($scope.cards.length === 0) {
-          throw Error('Out of cards');
-        }
-
-        var i = Math.floor(Math.random() * $scope.cards.length);
-        $scope.currentCard = $scope.cards[i];
-        $scope.cards.splice(i, 1);
+      $scope.toggleSide = function() {
+        $scope.showAnswer = !$scope.showAnswer;
       };
 
-      $scope.next();
+      $scope.cardSwipedLeft = function() {
+        console.log("Card swiped left");
+      };
+
+      $scope.cardSwipedRight = function() {
+        console.log("Card swiped right");
+      };
+
+      $scope.cardSnapBack = function() {
+        console.log("Snap back");
+      };
+
+      $scope.toggleLeftMenu = function() {
+        $ionicSideMenuDelegate.toggleLeft();
+      };
+
+      function addCard() {
+        if ($scope.unusedCards.length > 0) {
+          $scope.cards.push($scope.unusedCards[0]);
+          $scope.unusedCards.splice(0, 1);
+        }
+      }
     })
 
 })();

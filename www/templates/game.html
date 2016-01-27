@@ -7,12 +7,19 @@
       <h1 class="title">Game</h1>
     </ion-header-bar>
 
-    <ion-content scroll="false">
-      <div class="card">
-        <div id="front" class="item item-text-wrap" on-swipe-left="next()">
-          {{ displayCardContent }}
-        </div>
-      </div>
+    <ion-content scroll="false" class="dark-bg">
+      <td-cards>
+        <td-card ng-repeat="card in cards" class="card game-card" on-destroy="cardDestroyed($index)"
+              on-tap="toggleSide()" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)"
+              on-snap-back="cardSnapBack($index)">
+          <div class="word" ng-if="showAnswer">
+            {{ card.back }}
+          </div>
+          <div class="word" ng-if="!showAnswer">
+            {{ card.front }}
+          </div>
+        </td-card>
+      </td-cards>
     </ion-content>
   </ion-content>
 </ion-view>
