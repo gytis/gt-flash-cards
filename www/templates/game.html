@@ -8,15 +8,42 @@
     </ion-header-bar>
 
     <ion-content scroll="false" class="dark-bg">
-      <td-cards>
-        <td-card ng-repeat="card in cards" class="card game-card" on-destroy="cardDestroyed($index)"
-              on-tap="toggleSide()" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)"
-              on-snap-back="cardSnapBack($index)">
-          <div class="word" ng-if="showAnswer">
-            {{ card.back }}
+      <div ng-if="isGameEnd()">
+        <div class="row">
+          <div class="col">
+            <div class="result">
+              <h1>Well done! You've finished all the cards!</h1>
+            </div>
           </div>
-          <div class="word" ng-if="!showAnswer">
-            {{ card.front }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="game-result assertive-bg">
+            <p>Wrong answers: {{ wrongCount }}</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="game-result balanced-bg">
+            <p>Correct answers: {{ correctCount }}</p>
+          </div>
+        </div>
+      </div>
+      <td-cards ng-if="!isGameEnd()">
+        <td-card ng-repeat="card in cards" class="card game-card"
+                 on-tap="toggleSide()" on-destroy="cardDestroyed()"
+                 on-transition-left="onTransitionLeft()"
+                 on-transition-right="onTransitionRight()">
+
+          <div class="item item-text-wrap item-icon-left item-icon-right">
+            <i class="icon ion-chevron-left assertive"></i>
+            <p ng-if="isShowFront">
+                {{ card.front }}
+            </p>
+            <p ng-if="!isShowFront">
+                {{ card.back }}
+            </p>
+            <i class="icon ion-chevron-right balanced"></i>
           </div>
         </td-card>
       </td-cards>

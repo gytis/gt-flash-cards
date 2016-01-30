@@ -39,34 +39,36 @@
     .controller('GameController', function($scope, $localCardsContainer, underscore, $ionicSideMenuDelegate) {
       $scope.unusedCards = underscore.shuffle($localCardsContainer.getAll());
       $scope.cards = [];
-      $scope.showAnswer = false;
+      $scope.isShowFront = true;
+      $scope.totalCount = $scope.unusedCards.length;
+      $scope.correctCount = 0;
+      $scope.wrongCount = 0;
 
       addCard();
 
-      $scope.cardDestroyed = function(index) {
-        console.log("Card destroyed");
-        addCard();
-        $scope.cards.splice(index, 1);
-      };
-
       $scope.toggleSide = function() {
-        $scope.showAnswer = !$scope.showAnswer;
+        $scope.isShowFront = !$scope.isShowFront;
       };
 
-      $scope.cardSwipedLeft = function() {
-        console.log("Card swiped left");
+      $scope.cardDestroyed = function() {
+        addCard();
+        $scope.cards.splice(0, 1);
       };
 
-      $scope.cardSwipedRight = function() {
-        console.log("Card swiped right");
+      $scope.onTransitionLeft = function() {
+        $scope.wrongCount++;
       };
 
-      $scope.cardSnapBack = function() {
-        console.log("Snap back");
+      $scope.onTransitionRight = function() {
+        $scope.correctCount++;
       };
 
       $scope.toggleLeftMenu = function() {
         $ionicSideMenuDelegate.toggleLeft();
+      };
+
+      $scope.isGameEnd = function() {
+        return $scope.totalCount == $scope.correctCount + $scope.wrongCount;
       };
 
       function addCard() {
